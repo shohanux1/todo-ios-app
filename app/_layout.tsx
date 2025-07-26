@@ -4,10 +4,10 @@ import { Stack } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { Platform, Text, View } from 'react-native';
 
-import LoginScreen from "@/screens/LoginScreen";
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import LoginScreen from "./(auth)/login";
 
 
 const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!, {
@@ -48,21 +48,20 @@ export default function RootLayout() {
           : undefined
       }
     >
-       <AuthLoading>
+      <AuthLoading>
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
           <Text>Loading authentication...</Text>
         </View>
       </AuthLoading>
 
-       <Unauthenticated>
+      <Unauthenticated>
         <LoginScreen />
       </Unauthenticated>
 
       <Authenticated>
-
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />      
-        
+        <Stack>
+          <Stack.Screen name="(main)/index" options={{ headerShown: false }} />
+          <Stack.Screen name="(main)/new-task" options={{ headerShown: false }} />
         </Stack>
       </Authenticated>
     </ConvexAuthProvider>
