@@ -2,7 +2,14 @@ import PrimaryButton from "@/components/PrimaryButton";
 import { useMutation } from "convex/react";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { api } from "../../convex/_generated/api";
 
@@ -38,15 +45,16 @@ export default function NewTaskScreen() {
           autoFocus
         />
 
- 
-
         <PrimaryButton
-  label="Add Task"
-  onPress={handleAddTask}
-// icon={AddIcon} // Uncomment if you have an SVG icon
-/>
+          label="Add Task"
+          onPress={handleAddTask}
+          // icon={AddIcon} // Uncomment if you have an SVG icon
+        />
 
-        <TouchableOpacity onPress={() => router.back()} style={styles.cancelButton}>
+        <TouchableOpacity
+          onPress={() => router.back()}
+          style={styles.cancelButton}
+        >
           <Text style={styles.cancelText}>Cancel</Text>
         </TouchableOpacity>
       </View>

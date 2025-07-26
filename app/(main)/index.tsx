@@ -1,21 +1,19 @@
 import PrimaryButton from "@/components/PrimaryButton";
-import { useAuthActions } from "@convex-dev/auth/react";
 import { useMutation, useQuery } from "convex/react";
 import { useRouter } from "expo-router";
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
 
 export default function HomeScreen() {
   const router = useRouter();
-  const { signOut } = useAuthActions();
   const tasks = useQuery(api.tasks.get);
   const toggle = useMutation(api.tasks.toggle);
   const remove = useMutation(api.tasks.remove);
   const isLoading = !tasks;
-  
-  console.log("tasks", tasks)
+  const user = useQuery(api.tasks.getUser);
+
 
   const handleToggle = async (taskId: Id<"tasks">, isCompleted: boolean) => {
     await toggle({ id: taskId, isCompleted: !isCompleted });
@@ -25,14 +23,19 @@ export default function HomeScreen() {
     await remove({ id: taskId });
   };
 
-  const handleLogout = async () => {
-    await signOut();
-  };
-
   return (
 
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Your Tasks</Text>
+     <View style={styles.header}>
+    <Text style={styles.title}>Your Tasks</Text>
+    <TouchableOpacity onPress={() => router.push("/(main)/profile")}>
+    <Image
+  source={{ uri: typeof user?.image === "string" ? user.image : undefined }}
+  style={styles.avatar}
+/>
+
+</TouchableOpacity>
+  </View>
 
       <View style={styles.taskListWrapper}>
         {isLoading ? (
@@ -83,11 +86,7 @@ export default function HomeScreen() {
         label="+ Add New Task"
         onPress={() => router.push("/(main)/new-task")}
       />
-
-
-      <TouchableOpacity onPress={handleLogout} style={styles.logoutLink}>
-        <Text style={styles.logoutText}>Logout</Text>
-      </TouchableOpacity>
+    
     </SafeAreaView>
   );
 }
@@ -103,7 +102,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: "700",
-    marginBottom: 20,
   },
   taskListWrapper: {
     flex: 1,
@@ -186,5 +184,18 @@ const styles = StyleSheet.create({
   logoutText: {
     textAlign: "center",
     color: "#999",
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#ccc",
   },
 });

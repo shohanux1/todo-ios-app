@@ -62,6 +62,10 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="(main)/index" options={{ headerShown: false }} />
           <Stack.Screen name="(main)/new-task" options={{ headerShown: false }} />
+          <Stack.Screen 
+          name="(main)/profile"
+  options={{ title: "Profile", headerBackTitle: 'Back' }} 
+/>
         </Stack>
       </Authenticated>
     </ConvexAuthProvider>
